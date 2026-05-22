@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RIFTSTATS - Search Summoner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#a9c7ff",
+                        "surface": "#17130c",
+                        "secondary-container": "#3d4964",
+                        "surface-container-low": "#1f1b14",
+                        "secondary-fixed": "#d8e2ff",
+                        "inverse-surface": "#ebe1d6",
+                        "tertiary-fixed": "#d6e3ff",
+                        "tertiary-container": "#7ea3e3",
+                        "on-surface": "#ebe1d6",
+                        "on-secondary-fixed-variant": "#3b4762",
+                        "on-secondary": "#24304a",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2e2922",
+                        "secondary": "#bac6e7",
+                        "on-surface-variant": "#d2c5b1",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "background": "#17130c",
+                        "primary-fixed-dim": "#f0bf5c",
+                        "on-tertiary-fixed-variant": "#1b4680",
+                        "surface-container-highest": "#39342c",
+                        "on-tertiary-fixed": "#001b3d",
+                        "on-primary": "#412d00",
+                        "on-background": "#ebe1d6",
+                        "inverse-primary": "#7b5900",
+                        "on-secondary-container": "#acb8d8",
+                        "inverse-on-surface": "#353028",
+                        "surface-tint": "#f0bf5c",
+                        "on-tertiary": "#003063",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "surface-container": "#231f18",
+                        "on-primary-fixed": "#261900",
+                        "surface-dim": "#17130c",
+                        "outline": "#9b8f7d",
+                        "on-tertiary-container": "#033871",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#39342c",
+                        "surface-container-lowest": "#110e08",
+                        "surface-bright": "#3e3831",
+                        "primary": "#f0bf5c",
+                        "on-primary-container": "#4b3500",
+                        "tertiary": "#a9c7ff",
+                        "secondary-fixed-dim": "#bac6e7",
+                        "outline-variant": "#4e4637",
+                        "primary-container": "#c89b3c",
+                        "primary-fixed": "#ffdea4",
+                        "on-secondary-fixed": "#0e1b34"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "gutter": "12px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "margin": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "stat-lg": ["Inter"],
+                        "stat-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "stat-lg": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+                        "stat-sm": ["13px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0B0B0C; /* Level 0 Canvas */
+            color: #ebe1d6;
+        }
+        .bg-level-1 { background-color: #1A1C1E; }
+        .border-level { border-color: #2C2E33; }
+        .text-gold { color: #C89B3C; }
+        .bg-gold { background-color: #C89B3C; }
+        
+        /* Watermark effect */
+        .bg-watermark {
+            background-image: radial-gradient(circle at center, rgba(200, 155, 60, 0.05) 0%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row relative">
+<!-- BottomNavBar (Mobile Only) -->
+<!-- Suppressed: The search intent acts as a generic entry point, but let's assume it's part of top-level navigation context for "Dashboard" or "Home" equivalent. We'll render it as per instructions but active state needs care. We'll use "Home". -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin pb-safe pt-xs bg-surface-container-highest border-t border-outline-variant shadow-xl rounded-t-xl text-primary font-label-caps text-label-caps">
+<div class="flex flex-col items-center justify-center text-primary bg-primary-container/10 rounded-full px-4 py-1 active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span>Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined">reorder</span>
+<span>Matches</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined">emoji_events</span>
+<span>Ranks</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined">person</span>
+<span>Profile</span>
+</div>
+</nav>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden md:flex flex-col h-screen sticky top-0 p-md gap-sm bg-surface-container-low border-r border-outline-variant docked left-0 w-64 z-40">
+<div class="mb-xl px-sm">
+<span class="text-primary font-black text-headline-md font-display-lg text-display-lg tracking-tighter">RIFTSTATS</span>
+</div>
+<!-- Header Profile (Placeholder since no user searched yet, but keeping structure) -->
+<div class="flex items-center gap-sm mb-lg px-sm pb-md border-b border-level">
+<div class="w-12 h-12 rounded-full bg-surface-container-high border border-outline flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Summoner Profile</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Challenger Tier</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs font-label-caps text-label-caps">
+<a class="flex items-center gap-sm px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-lg">sensors</span>
+<span>Live Match</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-lg">history</span>
+<span>Match History</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-lg">insights</span>
+<span>Performance</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-lg">groups</span>
+<span>Champions</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all rounded-lg mt-auto mb-md" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<button class="w-full py-sm bg-transparent border border-outline-variant text-on-surface font-label-caps text-label-caps rounded hover:bg-surface-variant transition-colors">
+            Refresh Stats
+        </button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col relative w-full overflow-hidden pb-20 md:pb-0">
+<!-- TopAppBar (Web) -->
+<header class="hidden md:flex justify-between items-center w-full px-margin py-sm max-w-[1440px] mx-auto bg-surface border-b border-outline-variant docked full-width top-0 z-30">
+<div class="flex items-center gap-lg">
+<h1 class="font-display-lg text-display-lg font-black tracking-tighter text-primary">RIFTSTATS</h1>
+<nav class="flex gap-md font-headline-md text-headline-md">
+<a class="text-primary border-b-2 border-primary pb-1 opacity-80 scale-95 transition-all" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 px-sm py-xs rounded" href="#">Leaderboards</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 px-sm py-xs rounded" href="#">Champions</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 px-sm py-xs rounded" href="#">Pro Play</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline overflow-hidden">
+<!-- Placeholder avatar -->
+<div class="w-full h-full bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-on-surface">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Search Canvas -->
+<div class="flex-1 flex flex-col items-center justify-center relative px-margin py-xl bg-watermark">
+<!-- Abstract background decorative element -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
+<span class="material-symbols-outlined" style="font-size: 400px; color: #C89B3C;">sports_esports</span>
+</div>
+<div class="w-full max-w-2xl relative z-10 flex flex-col items-center text-center">
+<div class="mb-lg">
+<span class="material-symbols-outlined text-display-lg text-primary mb-sm block">search</span>
+<h2 class="font-display-lg text-display-lg text-on-surface mb-xs">Find Your Summoner</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+                        Search for a player by Riot ID to view their recent matches and stats.
+                    </p>
+</div>
+<!-- Search Input Group -->
+<div class="w-full flex flex-col md:flex-row gap-xs bg-level-1 p-sm rounded-lg border border-level shadow-lg mb-md">
+<div class="flex-1 relative">
+<div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">person_search</span>
+</div>
+<input class="w-full bg-[#0B0B0C] border border-level rounded text-on-surface font-body-md text-body-md pl-xl py-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/50" placeholder="Game Name (e.g. Faker)" type="text"/>
+</div>
+<div class="w-full md:w-32 relative">
+<div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+<span class="text-on-surface-variant font-stat-sm">#</span>
+</div>
+<input class="w-full bg-[#0B0B0C] border border-level rounded text-on-surface font-body-md text-body-md pl-lg py-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/50" placeholder="Tag Line" type="text"/>
+</div>
+<button class="bg-gold text-[#17130c] font-headline-sm text-headline-sm px-lg py-sm rounded hover:bg-primary-fixed transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="hidden md:inline">Search</span>
+</button>
+</div>
+<!-- Trending / Quick Search -->
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-sm uppercase tracking-widest">Trending Players</span>
+<div class="flex flex-wrap justify-center gap-sm">
+<button class="flex items-center gap-xs px-sm py-xs bg-surface-container-high border border-level rounded-full hover:border-primary hover:text-primary transition-colors font-stat-sm text-stat-sm text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+                            Faker <span class="text-on-surface-variant">#T1</span>
+</button>
+<button class="flex items-center gap-xs px-sm py-xs bg-surface-container-high border border-level rounded-full hover:border-primary hover:text-primary transition-colors font-stat-sm text-stat-sm text-on-surface">
+<span class="w-2 h-2 rounded-full bg-tertiary-container inline-block"></span>
+                            Chovy <span class="text-on-surface-variant">#GEN</span>
+</button>
+<button class="flex items-center gap-xs px-sm py-xs bg-surface-container-high border border-level rounded-full hover:border-primary hover:text-primary transition-colors font-stat-sm text-stat-sm text-on-surface">
+<span class="w-2 h-2 rounded-full bg-error-container inline-block"></span>
+                            ShowMaker <span class="text-on-surface-variant">#DK</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RIFTSTATS - Summoner Not Found</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#3e3831",
+                        "primary-fixed": "#ffdea4",
+                        "on-background": "#ebe1d6",
+                        "secondary-container": "#3d4964",
+                        "on-tertiary-container": "#033871",
+                        "on-tertiary": "#003063",
+                        "on-secondary": "#24304a",
+                        "tertiary-fixed-dim": "#a9c7ff",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#110e08",
+                        "on-surface-variant": "#d2c5b1",
+                        "tertiary-container": "#7ea3e3",
+                        "on-tertiary-fixed": "#001b3d",
+                        "secondary": "#bac6e7",
+                        "on-secondary-fixed-variant": "#3b4762",
+                        "error-container": "#93000a",
+                        "tertiary": "#a9c7ff",
+                        "surface": "#17130c",
+                        "on-surface": "#ebe1d6",
+                        "on-secondary-container": "#acb8d8",
+                        "on-primary-fixed": "#261900",
+                        "outline-variant": "#4e4637",
+                        "background": "#17130c",
+                        "secondary-fixed-dim": "#bac6e7",
+                        "inverse-surface": "#ebe1d6",
+                        "outline": "#9b8f7d",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#353028",
+                        "on-primary": "#412d00",
+                        "surface-container-highest": "#39342c",
+                        "primary": "#f0bf5c",
+                        "surface-variant": "#39342c",
+                        "inverse-primary": "#7b5900",
+                        "surface-tint": "#f0bf5c",
+                        "surface-dim": "#17130c",
+                        "primary-container": "#c89b3c",
+                        "surface-container-high": "#2e2922",
+                        "on-secondary-fixed": "#0e1b34",
+                        "tertiary-fixed": "#d6e3ff",
+                        "primary-fixed-dim": "#f0bf5c",
+                        "error": "#ffb4ab",
+                        "surface-container": "#231f18",
+                        "on-primary-container": "#4b3500",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#1b4680",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "surface-container-low": "#1f1b14"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "margin": "16px",
+                        "md": "16px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "stat-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "stat-sm": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "stat-lg": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+                        "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "stat-sm": ["13px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0B0B0C; color: #ebe1d6; } /* Global canvas */
+        .card-border { border: 1px solid #2C2E33; }
+        .bg-level-1 { background-color: #1A1C1E; }
+        .bg-level-2 { background-color: #2C2E33; }
+        .btn-primary { background-color: #C89B3C; color: #000; font-weight: 700; transition: opacity 0.2s; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-secondary { border: 1px solid #2C2E33; color: white; background-color: transparent; font-weight: 600; transition: background-color 0.2s; }
+        .btn-secondary:hover { background-color: #2C2E33; }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden font-body-md text-body-md antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant w-full px-margin py-sm flex justify-between items-center z-10 shrink-0">
+<div class="flex items-center gap-lg">
+<span class="font-display-lg text-display-lg font-black tracking-tighter text-primary">RIFTSTATS</span>
+<!-- Web Navigation Links -->
+<nav class="hidden md:flex gap-md items-end h-full pt-1">
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 px-2 py-1 rounded" href="#">Dashboard</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 px-2 py-1 rounded" href="#">Leaderboards</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 px-2 py-1 rounded" href="#">Champions</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 px-2 py-1 rounded" href="#">Pro Play</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<!-- Search Bar on Right -->
+<div class="hidden md:flex items-center bg-[#1A1C1E] border border-[#2C2E33] rounded px-sm py-1 focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none text-on-surface focus:ring-0 text-sm w-48 placeholder:text-on-surface-variant" placeholder="Search Riot ID..." type="text" value="UnknownPlayer#NA1"/>
+</div>
+<!-- Trailing Icons -->
+<button aria-label="Notifications" class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-container-high transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="Settings" class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-container-high transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<!-- Profile Avatar -->
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden shrink-0 ml-2">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A small, stylized avatar image suitable for a gaming profile, depicting a sleek, futuristic helmet in dark metallic tones with a subtle glowing gold visor, set against a dark grey background in a high-tech, minimalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm5h2CxjiuX7XwsuVnXzZKjLfOjhAvMBqVDRdtOwPd7XgM8UF3Z2HAHAGQKRgTf3pEYKHLRw_eX-6BbECYv_YL_h-1_OHHh4Nd7FdCutOR9nA33_RmSsk_EURIPqskhJoWazPuvSoVsGU5kv3gQO6ssVCkpm8PzUm0ffTrHc4Ys6sP64VOFqdqav9M7ftpqOTwn_hcS3BbCAXmEW9_p-6l09TKXu2roSQj_hp57tG2rhzzVyvvFOOUaPl0cQp3VyTm1o-9OSsVTcQ"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Suppressed for Error State, but requested in prompt so including as contextually disabled/generic) -->
+<!-- *Note: Usually suppressed for transactional/error dead-ends, but strict prompt instruction requested it.* -->
+<aside class="hidden md:flex flex-col h-full w-64 bg-surface-container-low border-r border-outline-variant p-md gap-sm shrink-0 overflow-y-auto">
+<!-- Generic Header since no summoner found -->
+<div class="flex flex-col items-center mb-lg pt-sm">
+<div class="w-16 h-16 rounded-full bg-surface-variant border border-outline-variant flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl" data-icon="help">help</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Summoner Profile</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Unknown Tier</p>
+</div>
+<!-- Navigation Links (All inactive since context is lost) -->
+<nav class="flex flex-col gap-1 flex-1">
+<a class="flex items-center gap-sm px-sm py-2 text-on-surface-variant hover:bg-surface-variant transition-all rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="sensors">sensors</span>
+<span class="font-label-caps text-label-caps">Live Match</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-2 text-on-surface-variant hover:bg-surface-variant transition-all rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps">Match History</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-2 text-on-surface-variant hover:bg-surface-variant transition-all rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="insights">insights</span>
+<span class="font-label-caps text-label-caps">Performance</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-2 text-on-surface-variant hover:bg-surface-variant transition-all rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="Groups">groups</span>
+<span class="font-label-caps text-label-caps">Champions</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-2 text-on-surface-variant hover:bg-surface-variant transition-all rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<button class="btn-secondary w-full py-2 rounded text-sm mt-auto opacity-50 cursor-not-allowed">Refresh Stats</button>
+</aside>
+<!-- Main Content Area - Error Canvas -->
+<main class="flex-1 flex flex-col items-center justify-center p-md overflow-y-auto relative">
+<!-- Subtle background accent to break up the flat canvas slightly -->
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-error-container/5 via-background to-background pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center max-w-lg w-full text-center">
+<!-- Graphic / Icon -->
+<div class="mb-lg relative">
+<div class="w-24 h-24 rounded-full bg-error-container/10 border border-error-container/30 flex items-center justify-center relative z-10">
+<span class="material-symbols-outlined text-error text-5xl" data-icon="search_off">search_off</span>
+</div>
+<!-- Subtle glow behind icon -->
+<div class="absolute inset-0 bg-error-container rounded-full blur-xl opacity-20 z-0"></div>
+</div>
+<!-- Error Message -->
+<h1 class="font-display-lg text-display-lg text-on-surface mb-sm">Summoner Not Found</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl max-w-md">
+                    We couldn't find a player with the Riot ID <span class="text-on-surface font-semibold">"UnknownPlayer#NA1"</span>. Please check the spelling and tag line and try again.
+                </p>
+<!-- Action Button -->
+<button class="btn-primary px-lg py-2 rounded-lg font-headline-sm text-headline-sm flex items-center gap-2 mb-xl">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+                    Back to Search
+                </button>
+<!-- Recovery / Suggestions -->
+<div class="w-full bg-level-1 card-border rounded-xl p-lg flex flex-col items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="trending_up">trending_up</span>
+                        Trending Players
+                    </h3>
+<div class="flex flex-wrap justify-center gap-sm">
+<!-- Chip 1 -->
+<button class="bg-level-2 card-border rounded-full px-4 py-1.5 flex items-center gap-2 hover:bg-surface-variant transition-colors group">
+<span class="font-stat-sm text-stat-sm text-on-surface group-hover:text-primary transition-colors">Faker</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">#T1</span>
+</button>
+<!-- Chip 2 -->
+<button class="bg-level-2 card-border rounded-full px-4 py-1.5 flex items-center gap-2 hover:bg-surface-variant transition-colors group">
+<span class="font-stat-sm text-stat-sm text-on-surface group-hover:text-primary transition-colors">Chovy</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">#GEN</span>
+</button>
+<!-- Chip 3 -->
+<button class="bg-level-2 card-border rounded-full px-4 py-1.5 flex items-center gap-2 hover:bg-surface-variant transition-colors group">
+<span class="font-stat-sm text-stat-sm text-on-surface group-hover:text-primary transition-colors">ShowMaker</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">#DK</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<!-- Note: Usually suppressed on dead-ends, but keeping as requested by shared components logic fallback -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin pb-safe pt-xs bg-surface-container-highest border-t border-outline-variant shadow-xl rounded-t-xl shrink-0">
+<!-- Home (Active as a fallback for search context) -->
+<button class="flex flex-col items-center justify-center text-primary bg-primary-container/10 rounded-full px-4 py-1 active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</button>
+<!-- Matches -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined" data-icon="reorder">reorder</span>
+<span class="font-label-caps text-label-caps mt-1">Matches</span>
+</button>
+<!-- Ranks -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+<span class="font-label-caps text-label-caps mt-1">Ranks</span>
+</button>
+<!-- Profile -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant scale-90 duration-100">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</button>
+</nav>
+</body></html>

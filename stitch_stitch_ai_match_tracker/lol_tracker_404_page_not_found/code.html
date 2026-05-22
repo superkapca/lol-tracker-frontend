@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>404 - RIFTSTATS</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#a9c7ff",
+                    "outline-variant": "#4e4637",
+                    "on-error": "#690005",
+                    "on-tertiary-fixed-variant": "#1b4680",
+                    "on-tertiary": "#003063",
+                    "on-secondary-container": "#acb8d8",
+                    "background": "#17130c",
+                    "primary": "#f0bf5c",
+                    "on-surface-variant": "#d2c5b1",
+                    "on-error-container": "#ffdad6",
+                    "inverse-primary": "#7b5900",
+                    "on-tertiary-container": "#033871",
+                    "on-secondary-fixed": "#0e1b34",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed": "#d6e3ff",
+                    "surface-container-low": "#1f1b14",
+                    "surface": "#17130c",
+                    "on-primary-fixed-variant": "#5d4200",
+                    "on-primary-fixed": "#261900",
+                    "on-primary": "#412d00",
+                    "surface-container-lowest": "#110e08",
+                    "primary-fixed-dim": "#f0bf5c",
+                    "primary-container": "#c89b3c",
+                    "surface-container-high": "#2e2922",
+                    "tertiary-container": "#7ea3e3",
+                    "outline": "#9b8f7d",
+                    "surface-tint": "#f0bf5c",
+                    "surface-variant": "#39342c",
+                    "secondary-container": "#3d4964",
+                    "surface-dim": "#17130c",
+                    "on-primary-container": "#4b3500",
+                    "error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#3b4762",
+                    "secondary-fixed-dim": "#bac6e7",
+                    "tertiary": "#a9c7ff",
+                    "on-background": "#ebe1d6",
+                    "on-secondary": "#24304a",
+                    "secondary-fixed": "#d8e2ff",
+                    "surface-bright": "#3e3831",
+                    "inverse-on-surface": "#353028",
+                    "surface-container-highest": "#39342c",
+                    "surface-container": "#231f18",
+                    "on-tertiary-fixed": "#001b3d",
+                    "secondary": "#bac6e7",
+                    "on-surface": "#ebe1d6",
+                    "primary-fixed": "#ffdea4",
+                    "inverse-surface": "#ebe1d6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "unit": "4px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "margin": "16px",
+                    "md": "16px",
+                    "gutter": "12px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "stat-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "stat-lg": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["10px", {"lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "700"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "stat-sm": ["13px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "stat-lg": ["18px", {"lineHeight": "22px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin py-sm max-w-[1440px] mx-auto">
+<!-- Brand -->
+<a class="font-display-lg text-display-lg font-black tracking-tighter text-primary dark:text-primary" href="#">RIFTSTATS</a>
+<!-- Navigation Links (All inactive for 404) -->
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors duration-200 hover:bg-surface-container-high dark:hover:bg-surface-container-high px-sm py-xs rounded" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors duration-200 hover:bg-surface-container-high dark:hover:bg-surface-container-high px-sm py-xs rounded" href="#">Leaderboards</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors duration-200 hover:bg-surface-container-high dark:hover:bg-surface-container-high px-sm py-xs rounded" href="#">Champions</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors duration-200 hover:bg-surface-container-high dark:hover:bg-surface-container-high px-sm py-xs rounded" href="#">Pro Play</a>
+</nav>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-sm">
+<button class="p-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full border border-outline-variant ml-sm overflow-hidden flex-shrink-0 cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A close-up digital portrait of a competitive gamer in a dark, neon-lit esports arena setting. The lighting is moody with subtle gold and deep blue highlights reflecting on their face, matching a high-end tactical dark UI aesthetic. The atmosphere is intense, professional, and focused." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAruax2OOak2si2HkDiZyGATvUZ_qI7QyuTBRaylcp_4sNJlG140OC9HmirDd6ZCqAIUkDqInOVr_Kn6RElRvXC2_NuZIjGTl0JC27Tzxc8n4K_H8UXmywW4Wr5tiaU5xp60-waqRpxEMooGuTaqcP5zpfKDyIH9yf_nV72xA5XEqsuNGX9HtIA9pJINkjD_JFXXnZ_obgWzsM_XXN2QFnrSCxtx3LroTWiLdvG-ebLAKthYh5n08kXK3_j09WRclkJbBeoowtfsc8"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas (Navigation Shell Suppressed due to 404 Context) -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin py-xl relative">
+<!-- Background Atmospheric Element -->
+<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center opacity-10">
+<div class="w-[800px] h-[800px] rounded-full bg-gradient-to-tr from-error to-transparent blur-3xl mix-blend-screen"></div>
+</div>
+<div class="z-10 w-full max-w-4xl flex flex-col items-center text-center">
+<!-- 404 Headline -->
+<div class="relative mb-lg">
+<h1 class="text-[140px] md:text-[200px] font-black text-error leading-none tracking-tighter opacity-90 select-none">
+                    404
+                </h1>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none mix-blend-overlay">
+<span class="material-symbols-outlined text-[100px] md:text-[150px] text-background opacity-50" data-icon="block" style="font-variation-settings: 'FILL' 1;">block</span>
+</div>
+</div>
+<!-- Error Message -->
+<h2 class="font-display-lg text-display-lg text-on-surface mb-sm uppercase tracking-wide">
+                Nexus Destroyed
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mb-xl">
+                The data you are searching for has been lost to the void. The match might have been deleted, or the summoner has changed their name.
+            </p>
+<!-- Primary Action -->
+<a class="inline-flex items-center gap-sm bg-primary text-on-primary font-headline-sm text-headline-sm px-xl py-md rounded-DEFAULT border-none hover:bg-primary-container hover:scale-95 transition-all duration-200 select-none cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Return to Dashboard
+            </a>
+<!-- Helper Section: Trending Players -->
+<div class="mt-24 w-full max-w-3xl text-left">
+<div class="flex items-center gap-sm mb-md border-b border-outline-variant pb-xs">
+<span class="material-symbols-outlined text-primary" data-icon="trending_up">trending_up</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Trending Players</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Player Card 1 -->
+<div class="group border border-outline-variant bg-surface-container-low p-sm flex items-center gap-md hover:bg-surface-variant hover:border-primary transition-colors duration-200 cursor-pointer">
+<div class="w-12 h-12 rounded-full border border-outline-variant overflow-hidden flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="A dramatic portrait of a professional esports player looking determined. The scene uses a tactical dark color palette with low-light conditions and a stark contrast of gold rim lighting. The overall mood is serious, competitive, and aligns with a high-performance gaming HUD environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbLvtp3ve6zVuivtkU047Itgj1PPiFFCPw5KK7RwBi1SQbdynRs9_ikoYSb7vBT5SjGzV-DUSIV9H89IsE-W6FDV3qz0AED8Ix64GHevT9TKk6fDrIsw0fQPqnlHmmLRXNSfM3_5i8U5aRj-ex63648sggYsdWxom0Cx2DBODCcOVhDtxgT7pxh8pgvvpDhxX8J6bFG5APJglrWywLQWta_MicOdJ3cQUDTO1g4s6FFy8u_f3z-xk7NcDdk00k0qxmjSilnFJvqts"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-surface-container-low"></div>
+</div>
+<div class="flex-grow">
+<div class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Faker</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+                                T1 • Mid
+                            </div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Player Card 2 -->
+<div class="group border border-outline-variant bg-surface-container-low p-sm flex items-center gap-md hover:bg-surface-variant hover:border-primary transition-colors duration-200 cursor-pointer">
+<div class="w-12 h-12 rounded-full border border-outline-variant overflow-hidden flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="A focused digital portrait of an esports champion wearing a competitive team jersey. The environment is dark and cinematic, illuminated by sharp, cool blue and gold monitors' reflections. The aesthetic captures the high-stakes, professional atmosphere of a premium gaming statistics platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQys4iGVbu2kjbTTefdnWtbOTcHrl_5YqnRVRRM16mWgy14lNhPmnXMCTF4ebCi76uBjH_sAUd8G0aAGNDMkH-Nm1O1waNU8e1g6QYeqD790-wt5kwOmVwzOGnEEo7UhDeM1qbEqROuxjykCSkaRpEsgtaLhnrI3LtXw0VEbhMGZa9-cA0XYzQmSgQHBkAJgsvOSaLAjS9NuLDRe2qSFU5WxhBefDbKIYO39AQ4FK965yMUPz7g6Tfx44Z3FAhNbmzz9tBqh21GFo"/>
+</div>
+<div class="flex-grow">
+<div class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Chovy</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+                                GEN • Mid
+                            </div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Player Card 3 -->
+<div class="group border border-outline-variant bg-surface-container-low p-sm flex items-center gap-md hover:bg-surface-variant hover:border-primary transition-colors duration-200 cursor-pointer">
+<div class="w-12 h-12 rounded-full border border-outline-variant overflow-hidden flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="A moody, high-contrast image of a gamer's silhouette against a vibrant, glowing computer screen in a darkened room. The colors emphasize deep blacks and bright gold accents, creating a tactical, analytical feel suitable for an intense competitive gaming tracking application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkjPs4FHpuZgqqJ3KV22QapfEkf31mP8fj_9dHWQHqqn_hSDMRmSLAKwCRgdJ9gA63YNHAKEP_-V2rjru4QgKrpz16npDwtEwqNYAutwl38YL9qBPCTlAz73oC8JU1Pyt2CFH62Gm_kf75I39-Wk6-LiMOUWUr0PG2zWIprs4aHk9XTh8_F3xi5y3EFZ3-l9pdRYrbxtwion6-qpULyUCF_-f5OuMW1gZbytIN3o4aQwkp4JiJYDQhbyXYd3ciWuEIngKR-XPREn0"/>
+</div>
+<div class="flex-grow">
+<div class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">ShowMaker</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+                                DK • Mid
+                            </div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

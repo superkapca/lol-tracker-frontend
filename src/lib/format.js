@@ -1,9 +1,18 @@
 export function compact(value) {
   if (value === null || value === undefined) return "-";
-  return new Intl.NumberFormat(undefined, {
-    notation: "compact",
-    maximumFractionDigits: 1
-  }).format(value);
+  const number = Number(value);
+  if (Number.isNaN(number)) return "-";
+  const sign = number < 0 ? "-" : "";
+  const absolute = Math.abs(number);
+
+  if (absolute >= 1_000_000_000) return `${sign}${trim(absolute / 1_000_000_000)}B`;
+  if (absolute >= 1_000_000) return `${sign}${trim(absolute / 1_000_000)}M`;
+  if (absolute >= 1_000) return `${sign}${trim(absolute / 1_000)}K`;
+  return `${number}`;
+}
+
+function trim(value) {
+  return value.toFixed(value >= 10 ? 0 : 1).replace(/\.0$/, "");
 }
 
 export function duration(seconds) {
@@ -15,7 +24,7 @@ export function duration(seconds) {
 
 export function dateTime(timestamp) {
   if (!timestamp) return "Unknown time";
-  return new Intl.DateTimeFormat(undefined, {
+  return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     hour: "2-digit",

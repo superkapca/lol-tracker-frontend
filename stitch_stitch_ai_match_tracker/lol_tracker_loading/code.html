@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Loading - LOL Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#3e3831",
+                        "primary-fixed": "#ffdea4",
+                        "on-background": "#ebe1d6",
+                        "secondary-container": "#3d4964",
+                        "on-tertiary-container": "#033871",
+                        "on-tertiary": "#003063",
+                        "on-secondary": "#24304a",
+                        "tertiary-fixed-dim": "#a9c7ff",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#110e08",
+                        "on-surface-variant": "#d2c5b1",
+                        "tertiary-container": "#7ea3e3",
+                        "on-tertiary-fixed": "#001b3d",
+                        "secondary": "#bac6e7",
+                        "on-secondary-fixed-variant": "#3b4762",
+                        "error-container": "#93000a",
+                        "tertiary": "#a9c7ff",
+                        "surface": "#17130c",
+                        "on-surface": "#ebe1d6",
+                        "on-secondary-container": "#acb8d8",
+                        "on-primary-fixed": "#261900",
+                        "outline-variant": "#4e4637",
+                        "background": "#17130c",
+                        "secondary-fixed-dim": "#bac6e7",
+                        "inverse-surface": "#ebe1d6",
+                        "outline": "#9b8f7d",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#353028",
+                        "on-primary": "#412d00",
+                        "surface-container-highest": "#39342c",
+                        "primary": "#f0bf5c",
+                        "surface-variant": "#39342c",
+                        "inverse-primary": "#7b5900",
+                        "surface-tint": "#f0bf5c",
+                        "surface-dim": "#17130c",
+                        "primary-container": "#c89b3c",
+                        "surface-container-high": "#2e2922",
+                        "on-secondary-fixed": "#0e1b34",
+                        "tertiary-fixed": "#d6e3ff",
+                        "primary-fixed-dim": "#f0bf5c",
+                        "error": "#ffb4ab",
+                        "surface-container": "#231f18",
+                        "on-primary-container": "#4b3500",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#1b4680",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "surface-container-low": "#1f1b14"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "margin": "16px",
+                        "md": "16px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "stat-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "stat-sm": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "stat-lg": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+                        "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "stat-sm": ["13px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .pulse-fast {
+            animation: pulse-fast 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0,
+                rgba(255, 255, 255, 0.05) 20%,
+                rgba(255, 255, 255, 0.1) 60%,
+                rgba(255, 255, 255, 0)
+            );
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+        .progress-bar-fill {
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant w-full sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin py-sm max-w-[1440px] mx-auto">
+<div class="flex items-center gap-md">
+<span class="font-display-lg text-display-lg font-black tracking-tighter text-primary dark:text-primary">RIFTSTATS</span>
+<nav class="hidden md:flex gap-margin">
+<a class="font-headline-md text-headline-md text-primary dark:text-primary border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors duration-200" href="#">Leaderboards</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors duration-200" href="#">Champions</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors duration-200" href="#">Pro Play</a>
+</nav>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A stylized, high-contrast avatar image suitable for a gaming profile, featuring deep blacks and intense neon gold accents, aligning with the tactical dark esports theme of the UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFgPEPCm0jqDwZCLPnFyW-8eQ_SZLUuM347VmAB9MwufAJ38s8CbCyLgGm-qVKc6QdvsVOeXaL_A6Y9ZTj1U0P_ua_7WnT6oaWWU9fwZMqehWlYJvaFimr4VI7JBmcVYqFi2FpS-kbUYz2WdX0_Af3DGC65W1WDlGCdSTDgLJRnRKmyizUVbSEKw74NK3pTUjT4Rr4Mff9ICQVhBJO69j9o237fSVu7A3sNc87fxx8o-CRr9f7c60APc1aj0gYGH6_JgjcHyhwzTY"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden max-w-[1440px] mx-auto w-full">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-64px)] sticky top-16 p-md gap-sm bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant dark:border-outline-variant w-64 shrink-0">
+<div class="flex items-center gap-sm mb-lg px-2">
+<div class="w-12 h-12 rounded-full bg-surface-container-high shimmer border border-outline-variant"></div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary dark:text-primary">Summoner Profile</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Challenger Tier</p>
+</div>
+</div>
+<nav class="flex flex-col gap-xs flex-1">
+<a class="flex items-center gap-sm px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">sensors</span>
+<span class="font-label-caps text-label-caps">Live Match</span>
+</a>
+<a class="flex items-center gap-sm px-3 py-2 bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-lg translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-label-caps">Match History</span>
+</a>
+<a class="flex items-center gap-sm px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-caps text-label-caps">Performance</span>
+</a>
+<a class="flex items-center gap-sm px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-caps text-label-caps">Champions</span>
+</a>
+<a class="flex items-center gap-sm px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-all rounded-lg mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<button class="w-full py-2 mt-sm border border-outline-variant rounded bg-surface text-on-surface font-stat-sm text-stat-sm hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2 opacity-50 cursor-not-allowed">
+<span class="material-symbols-outlined animate-spin text-[16px]">sync</span>
+                Refresh Stats
+            </button>
+</aside>
+<!-- Main Content Area - Loading State -->
+<main class="flex-1 p-md md:p-xl overflow-y-auto relative bg-background">
+<!-- Central Loading Overlay -->
+<div class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
+<div class="relative w-24 h-24 mb-lg">
+<!-- Outer rotating ring -->
+<svg class="absolute inset-0 w-full h-full text-primary animate-spin" style="animation-duration: 3s;" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-dasharray="70 200" stroke-linecap="round" stroke-width="2"></circle>
+</svg>
+<!-- Inner rotating ring -->
+<svg class="absolute inset-2 w-20 h-20 text-secondary animate-spin" style="animation-duration: 1.5s; animation-direction: reverse;" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-dasharray="100 150" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<!-- Center icon -->
+<div class="absolute inset-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl pulse-fast" style="font-variation-settings: 'FILL' 1;">swords</span>
+</div>
+</div>
+<div class="text-center">
+<h2 class="font-headline-md text-headline-md text-primary mb-2">Fetching Match Data</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Analyzing recent performance for <span class="text-primary-fixed font-semibold">Faker#T1</span></p>
+<!-- Progress Bar -->
+<div class="w-64 h-2 bg-surface-container-high rounded-full overflow-hidden border border-outline-variant mx-auto">
+<div class="h-full bg-primary progress-bar-fill" id="loadingProgress"></div>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-2 tracking-widest uppercase" id="loadingText">Connecting to Riot API...</p>
+</div>
+</div>
+<!-- Header Skeleton -->
+<div class="flex justify-between items-end mb-lg border-b border-outline-variant pb-sm opacity-30">
+<div class="flex items-center gap-md">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest shimmer border border-outline-variant"></div>
+<div>
+<div class="w-48 h-8 bg-surface-container-highest shimmer rounded mb-2"></div>
+<div class="flex gap-2">
+<div class="w-24 h-6 bg-surface-container-highest shimmer rounded-full"></div>
+<div class="w-32 h-6 bg-surface-container-highest shimmer rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="hidden md:flex gap-2">
+<div class="w-20 h-8 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-20 h-8 bg-surface-container-highest shimmer rounded"></div>
+</div>
+</div>
+<!-- Stats Overview Skeleton -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-sm mb-lg opacity-30">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-low border border-outline-variant rounded p-sm flex flex-col gap-2">
+<div class="w-24 h-4 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-16 h-8 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden mt-1"><div class="w-1/2 h-full bg-surface-variant shimmer"></div></div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-low border border-outline-variant rounded p-sm flex flex-col gap-2">
+<div class="w-24 h-4 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-20 h-8 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-3/4 h-2 bg-surface-container-highest rounded-full overflow-hidden mt-1"><div class="w-2/3 h-full bg-surface-variant shimmer"></div></div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-low border border-outline-variant rounded p-sm flex flex-col gap-2">
+<div class="w-20 h-4 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-24 h-8 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-1/2 h-2 bg-surface-container-highest rounded-full mt-1"></div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface-container-low border border-outline-variant rounded p-sm flex flex-col gap-2">
+<div class="w-28 h-4 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-16 h-8 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden mt-1"><div class="w-3/4 h-full bg-surface-variant shimmer"></div></div>
+</div>
+</div>
+<!-- Match List Skeleton -->
+<div class="flex flex-col gap-unit opacity-30">
+<!-- Match Row 1 (Simulated Win structure) -->
+<div class="bg-surface border border-outline-variant flex h-24 relative overflow-hidden rounded-sm">
+<div class="w-1 h-full bg-surface-container-highest absolute left-0 top-0"></div> <!-- Edge indicator placeholder -->
+<div class="flex items-center w-full px-sm py-2 ml-1">
+<!-- Result/Type -->
+<div class="w-20 flex flex-col gap-1 shrink-0">
+<div class="w-16 h-4 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-12 h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-10 h-3 bg-surface-container-highest shimmer rounded mt-2"></div>
+</div>
+<!-- Champ Info -->
+<div class="flex items-center gap-sm w-48 shrink-0 border-l border-surface-container-high pl-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest shimmer border border-outline-variant"></div>
+<div class="flex flex-col gap-1">
+<div class="w-24 h-5 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-16 h-4 bg-surface-container-highest shimmer rounded"></div>
+</div>
+</div>
+<!-- KDA -->
+<div class="w-32 flex flex-col items-center justify-center shrink-0 border-l border-surface-container-high px-sm">
+<div class="w-20 h-6 bg-surface-container-highest shimmer rounded mb-1"></div>
+<div class="w-12 h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+<!-- Items (Mobile hidden) -->
+<div class="hidden md:flex gap-1 items-center justify-center flex-1 border-l border-surface-container-high px-sm">
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-full ml-1"></div>
+</div>
+<!-- Players (Desktop only) -->
+<div class="hidden lg:flex gap-xs w-48 shrink-0 border-l border-surface-container-high pl-sm">
+<div class="flex flex-col gap-1 flex-1">
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+<div class="flex flex-col gap-1 flex-1">
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Match Row 2 (Simulated Loss structure) -->
+<div class="bg-surface border border-outline-variant flex h-24 relative overflow-hidden rounded-sm">
+<div class="w-1 h-full bg-surface-container-highest absolute left-0 top-0"></div>
+<div class="flex items-center w-full px-sm py-2 ml-1">
+<div class="w-20 flex flex-col gap-1 shrink-0">
+<div class="w-16 h-4 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-14 h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-10 h-3 bg-surface-container-highest shimmer rounded mt-2"></div>
+</div>
+<div class="flex items-center gap-sm w-48 shrink-0 border-l border-surface-container-high pl-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest shimmer border border-outline-variant"></div>
+<div class="flex flex-col gap-1">
+<div class="w-20 h-5 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-14 h-4 bg-surface-container-highest shimmer rounded"></div>
+</div>
+</div>
+<div class="w-32 flex flex-col items-center justify-center shrink-0 border-l border-surface-container-high px-sm">
+<div class="w-24 h-6 bg-surface-container-highest shimmer rounded mb-1"></div>
+<div class="w-16 h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+<div class="hidden md:flex gap-1 items-center justify-center flex-1 border-l border-surface-container-high px-sm">
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-low rounded-sm border border-outline-variant"></div> <!-- Empty slot -->
+<div class="w-6 h-6 bg-surface-container-low rounded-sm border border-outline-variant"></div>
+<div class="w-6 h-6 bg-surface-container-low rounded-sm border border-outline-variant"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-full ml-1"></div>
+</div>
+<div class="hidden lg:flex gap-xs w-48 shrink-0 border-l border-surface-container-high pl-sm">
+<div class="flex flex-col gap-1 flex-1">
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+<div class="flex flex-col gap-1 flex-1">
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Match Row 3 -->
+<div class="bg-surface border border-outline-variant flex h-24 relative overflow-hidden rounded-sm">
+<div class="w-1 h-full bg-surface-container-highest absolute left-0 top-0"></div>
+<div class="flex items-center w-full px-sm py-2 ml-1">
+<div class="w-20 flex flex-col gap-1 shrink-0">
+<div class="w-12 h-4 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-16 h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-8 h-3 bg-surface-container-highest shimmer rounded mt-2"></div>
+</div>
+<div class="flex items-center gap-sm w-48 shrink-0 border-l border-surface-container-high pl-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest shimmer border border-outline-variant"></div>
+<div class="flex flex-col gap-1">
+<div class="w-28 h-5 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-12 h-4 bg-surface-container-highest shimmer rounded"></div>
+</div>
+</div>
+<div class="w-32 flex flex-col items-center justify-center shrink-0 border-l border-surface-container-high px-sm">
+<div class="w-16 h-6 bg-surface-container-highest shimmer rounded mb-1"></div>
+<div class="w-14 h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+<div class="hidden md:flex gap-1 items-center justify-center flex-1 border-l border-surface-container-high px-sm">
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest shimmer rounded-full ml-1"></div>
+</div>
+<div class="hidden lg:flex gap-xs w-48 shrink-0 border-l border-surface-container-high pl-sm">
+<div class="flex flex-col gap-1 flex-1">
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+<div class="flex flex-col gap-1 flex-1">
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+<div class="w-full h-3 bg-surface-container-highest shimmer rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin pb-safe pt-xs bg-surface-container-highest dark:bg-surface-container-highest border-t border-outline-variant dark:border-outline-variant rounded-t-xl shadow-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant active:bg-surface-variant p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary bg-primary-container/10 rounded-full px-4 py-1 active:bg-surface-variant" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">reorder</span>
+<span class="font-label-caps text-label-caps mt-1">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant active:bg-surface-variant p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="font-label-caps text-label-caps mt-1">Ranks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant active:bg-surface-variant p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Simulate loading progress
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('loadingProgress');
+            const loadingText = document.getElementById('loadingText');
+            
+            const stages = [
+                { progress: 15, text: "Authenticating..." },
+                { progress: 40, text: "Fetching Match History..." },
+                { progress: 75, text: "Calculating KDA Ratios..." },
+                { progress: 90, text: "Rendering UI..." },
+                { progress: 100, text: "Complete" }
+            ];
+
+            let currentStage = 0;
+
+            function updateProgress() {
+                if (currentStage < stages.length) {
+                    progressBar.style.width = `${stages[currentStage].progress}%`;
+                    loadingText.textContent = stages[currentStage].text;
+                    currentStage++;
+                    
+                    // Random delay between 400ms and 1200ms for realistic feel
+                    const nextDelay = Math.random() * 800 + 400;
+                    setTimeout(updateProgress, nextDelay);
+                }
+            }
+
+            // Start progress simulation
+            setTimeout(updateProgress, 500);
+        });
+    </script>
+</body></html>

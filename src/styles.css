@@ -3,19 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    box-sizing: border-box;
-  }
-
   body {
     min-height: 100vh;
     margin: 0;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(56, 163, 255, 0.18), transparent 30%),
-      radial-gradient(circle at 84% 12%, rgba(200, 155, 60, 0.13), transparent 28%),
-      #070a0f;
-    color: #eef3f8;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0b0b0c;
+    color: #ebe1d6;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    overflow-x: hidden;
   }
 
   button,
@@ -26,51 +21,80 @@
 }
 
 @layer components {
-  .screen {
-    @apply min-h-screen px-4 py-5 sm:px-6 lg:px-8;
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    line-height: 1;
   }
 
-  .shell {
-    @apply mx-auto max-w-[1480px];
+  .bg-level-1 {
+    background-color: #1a1c1e;
   }
 
-  .panel {
-    @apply rounded-lg border border-line bg-panel/90 shadow-game backdrop-blur;
+  .bg-level-2 {
+    background-color: #2c2e33;
   }
 
-  .panel-soft {
-    @apply rounded-md border border-line/80 bg-ink/55;
+  .border-base {
+    border: 1px solid #2c2e33;
   }
 
-  .eyebrow {
-    @apply text-xs font-black uppercase tracking-normal text-gold;
+  .win-border {
+    border-left: 4px solid #3b82f6;
   }
 
-  .muted {
-    @apply text-sm text-slate-400;
+  .loss-border {
+    border-left: 4px solid #ef4444;
   }
 
-  .field-label {
-    @apply mb-2 block text-xs font-black uppercase tracking-normal text-slate-400;
+  .win-text {
+    color: #60a5fa;
   }
 
-  .input {
-    @apply h-12 w-full rounded-md border border-line bg-ink px-3 text-sm text-white outline-none transition focus:border-blue focus:ring-4 focus:ring-blue/15;
+  .loss-text {
+    color: #f87171;
   }
 
-  .gold-button {
-    @apply inline-flex h-12 items-center justify-center gap-2 rounded-md bg-gradient-to-r from-gold to-[#f2ce73] px-5 text-sm font-black text-[#101010] transition hover:brightness-110 disabled:cursor-wait disabled:grayscale;
+  .search-input {
+    @apply bg-transparent border-none text-on-surface outline-none focus:ring-0 placeholder:text-on-surface-variant/60;
   }
 
-  .icon-frame {
-    @apply grid place-items-center overflow-hidden border border-line bg-ink text-xs font-black text-slate-500;
+  .nav-item {
+    @apply flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all;
   }
 
-  .stat-tile {
-    @apply panel-soft px-3 py-2;
+  .nav-item-active {
+    @apply bg-secondary-container text-on-secondary-container translate-x-1;
   }
 
-  .stat-label {
-    @apply block text-[11px] font-black uppercase tracking-normal text-slate-500;
+  .bottom-nav-item {
+    @apply flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant scale-90 duration-100;
+  }
+
+  .bottom-nav-active {
+    @apply text-primary bg-primary-container/10 rounded-full px-4 py-1;
+  }
+
+  .icon-slot {
+    @apply bg-level-2 border-base overflow-hidden flex-shrink-0;
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
   }
 }
