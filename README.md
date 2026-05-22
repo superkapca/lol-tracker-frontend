@@ -38,3 +38,32 @@ npm run build
 ```
 
 The Flask backend can serve the production build from this folder's `dist/` directory.
+
+## Cloudflare Wrangler Deployment
+
+This frontend can be deployed as a Cloudflare Workers Sites project.
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Build the app:
+
+```bash
+npm run build
+```
+
+3. Deploy with Wrangler:
+
+```bash
+npx wrangler deploy
+```
+
+If you want to deploy to a specific account/route, add your Cloudflare account settings to `wrangler.toml`.
+
+## Notes
+
+- The frontend is static and requires the backend API to run separately.
+- Set `VITE_API_BASE_URL` to your API host before deploying if your Flask backend is not on the same origin.
