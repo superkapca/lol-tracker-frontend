@@ -1,0 +1,652 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>LOL Tracker - Faker#T1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#acb8d8",
+                        "on-primary": "#412d00",
+                        "primary-fixed": "#ffdea4",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "surface-bright": "#3e3831",
+                        "surface-tint": "#f0bf5c",
+                        "on-secondary-fixed": "#0e1b34",
+                        "on-surface-variant": "#d2c5b1",
+                        "on-background": "#ebe1d6",
+                        "surface-container-highest": "#39342c",
+                        "secondary-fixed-dim": "#bac6e7",
+                        "on-surface": "#ebe1d6",
+                        "secondary-container": "#3d4964",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#033871",
+                        "inverse-surface": "#ebe1d6",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#003063",
+                        "surface": "#17130c",
+                        "background": "#17130c",
+                        "secondary": "#bac6e7",
+                        "on-tertiary-fixed-variant": "#1b4680",
+                        "tertiary": "#a9c7ff",
+                        "primary": "#f0bf5c",
+                        "on-secondary": "#24304a",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-secondary-fixed-variant": "#3b4762",
+                        "surface-container-lowest": "#110e08",
+                        "primary-fixed-dim": "#f0bf5c",
+                        "inverse-on-surface": "#353028",
+                        "tertiary-container": "#7ea3e3",
+                        "tertiary-fixed": "#d6e3ff",
+                        "surface-container-high": "#2e2922",
+                        "on-primary-fixed": "#261900",
+                        "tertiary-fixed-dim": "#a9c7ff",
+                        "on-primary-container": "#4b3500",
+                        "surface-container-low": "#1f1b14",
+                        "surface-dim": "#17130c",
+                        "outline-variant": "#4e4637",
+                        "on-tertiary-fixed": "#001b3d",
+                        "primary-container": "#c89b3c",
+                        "inverse-primary": "#7b5900",
+                        "surface-variant": "#39342c",
+                        "error": "#ffb4ab",
+                        "surface-container": "#231f18",
+                        "on-error": "#690005",
+                        "outline": "#9b8f7d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "margin": "16px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "unit": "4px",
+                        "lg": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Inter"],
+                        "stat-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "stat-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "stat-lg": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "stat-sm": ["13px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0B0B0C; color: theme('colors.on-surface'); font-family: 'Inter', sans-serif; }
+        .bg-level-1 { background-color: #1A1C1E; }
+        .bg-level-2 { background-color: #2C2E33; }
+        .border-base { border: 1px solid #2C2E33; }
+        .win-border { border-left: 4px solid #3b82f6; }
+        .loss-border { border-left: 4px solid #ef4444; }
+        .win-text { color: #60a5fa; }
+        .loss-text { color: #f87171; }
+        .gold-accent { color: #C89B3C; }
+        
+        /* Custom scrollbar for data dense areas if needed */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0B0B0C; }
+        ::-webkit-scrollbar-thumb { background: #2C2E33; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4e4637; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row">
+<!-- TopAppBar (Mobile) / Invisible on Desktop where SideNav takes over -->
+<header class="md:hidden flex justify-between items-center w-full px-margin py-sm border-b border-outline-variant bg-surface sticky top-0 z-40 flat no shadows">
+<div class="font-display-lg text-display-lg font-black tracking-tighter text-primary">RIFTSTATS</div>
+<div class="flex gap-sm">
+<span class="material-symbols-outlined text-primary cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer">settings</span>
+</div>
+</header>
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen sticky top-0 p-md gap-sm bg-surface-container-low border-r border-outline-variant w-64 flex-shrink-0 z-40">
+<div class="mb-lg">
+<div class="text-primary font-black text-headline-md mb-md">RIFTSTATS</div>
+<!-- Global Search embedded in Nav per design request, adapted to SideNav context -->
+<div class="flex flex-col gap-sm">
+<div class="flex bg-level-2 border-base rounded-lg overflow-hidden focus-within:border-primary-container focus-within:shadow-[0_0_0_1px_rgba(200,155,60,0.5)] transition-all">
+<input class="bg-transparent border-none text-on-surface focus:ring-0 w-full px-sm py-sm font-body-sm text-body-sm outline-none placeholder:text-on-surface-variant" placeholder="Game Name" type="text" value="Faker">
+<div class="w-px bg-outline-variant my-2"></div>
+<input class="bg-transparent border-none text-on-surface-variant focus:ring-0 w-16 px-sm py-sm font-body-sm text-body-sm outline-none placeholder:text-on-surface-variant text-center" placeholder="#Tag" type="text" value="T1">
+<button class="bg-primary-container text-on-primary-container px-sm hover:bg-surface-tint transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-md mb-lg p-sm border-base rounded-lg bg-level-1">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Challenger Player Avatar" class="w-full h-full object-cover" data-alt="A close-up, high-quality digital rendering of an esports player avatar. The avatar is stylized with a fierce, competitive aesthetic, illuminated by neon blues and stark golds against a pitch-black background. The lighting is dramatic, highlighting the contours of a fictional gaming helmet. The overall mood is intense, professional, and tactical, perfectly matching a dark-mode, high-stakes competitive gaming interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR1PkXUoRGPbTl7MXICSR88OklXU1J7uiJ_H0KAwHcSxwUXkbiz5z3lHVY7IDgHJU-3FNkAcWaMxTWwiGoGeawWs-UMNvixaHwgo8reTzVZ116asZ8oTplAawF7_s85UrrQibyMH3CktXQPcuX8dq10z93hMqwb3siJQvNampsRXCFORDhtPGM9NKRpOrw8pn5PykQi3LqcmZ5nl253mDvY2l0Ug-Kg8XdDUPTczugCMt3bz3kDxum9w4XCalYIEsmeu-YjlIp17o">
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="font-headline-sm text-headline-sm text-primary truncate">Faker</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Challenger Tier</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs flex-grow">
+<!-- Active State Navigation Logic -->
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">sensors</span>
+<span class="font-label-caps text-label-caps">Live Match</span>
+</a>
+<!-- Match History is ACTIVE -->
+<a class="flex items-center gap-sm px-sm py-sm bg-secondary-container text-on-secondary-container rounded-lg transition-transform translate-x-1" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-label-caps">Match History</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-caps text-label-caps">Performance</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-caps text-label-caps">Champions</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+<button class="mt-md w-full py-sm bg-level-2 border-base text-on-surface font-label-caps text-label-caps hover:bg-surface-variant transition-colors rounded-lg flex justify-center items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+            Refresh Stats
+        </button>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col items-center pb-24 md:pb-lg pt-md px-margin md:px-lg max-w-[1120px] mx-auto w-full">
+<!-- Mobile Search (Hidden on Desktop where it's in SideNav) -->
+<div class="md:hidden w-full mb-md">
+<div class="flex bg-level-2 border-base rounded-lg overflow-hidden focus-within:border-primary-container transition-all h-10">
+<input class="bg-transparent border-none text-on-surface focus:ring-0 w-full px-sm py-sm font-body-sm text-body-sm outline-none" placeholder="Name" type="text" value="Faker">
+<div class="w-px bg-outline-variant my-2"></div>
+<input class="bg-transparent border-none text-on-surface-variant focus:ring-0 w-16 px-sm py-sm font-body-sm text-body-sm outline-none text-center" placeholder="#Tag" type="text" value="T1">
+<button class="bg-primary-container text-on-primary-container px-sm hover:bg-surface-tint transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</button>
+</div>
+</div>
+<!-- Player Summary Header -->
+<section class="w-full bg-level-1 border-base rounded-lg p-md mb-md flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div class="flex items-center gap-md">
+<div class="w-16 h-16 rounded-full bg-level-2 border-2 border-primary-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img alt="Challenger Icon" class="w-full h-full object-cover" data-alt="A glowing, ornate shield emblem representing a high-tier esports rank. The emblem features intricate gold filigree, sharp geometric angles, and a glowing blue core, set against a dark, tactical background. The lighting is dramatic and cinematic, emphasizing the metallic textures and the competitive, professional atmosphere of a dark-mode gaming dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP4bFk1V8yYh3TJt4Wm6ExBd9NPFm_LCwWcOqN4HjblSh-bBLVJ7IUnAteuydcfj3pjjCYDhutfz5U2rU6G6tX_tx-1QtgyNZDosUxaqF_oWbq1YiW-cPIUPlC_4V8HLX4vZAu4HuB-wolmUo9Nx318J46oWmOx-QOAiqwS0IxNdmkjoCRGBXizbZccJz6JWd3l7tw0Y50JKdn_smIV1rJOMJoQHO-bioPaVbe8Lp0w4cnKX3XJu-w3LwxDL7Le8zc-Oal65hSk-8">
+</div>
+<div class="flex flex-col">
+<div class="flex items-baseline gap-xs">
+<h1 class="font-display-lg text-display-lg text-on-surface m-0">Faker</h1>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">#T1</span>
+</div>
+<div class="flex items-center gap-sm mt-1">
+<span class="font-label-caps text-label-caps px-2 py-1 bg-level-2 border-base rounded text-primary">KR</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Challenger · 1,245 LP</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end w-full md:w-auto">
+<div class="font-body-sm text-body-sm text-on-surface-variant mb-xs">Last 20 Matches</div>
+<div class="flex gap-xs items-center w-full md:w-48">
+<span class="font-stat-sm text-stat-sm text-on-surface">14W</span>
+<div class="h-2 flex-grow bg-level-2 rounded-full overflow-hidden flex">
+<div class="bg-blue-500 h-full w-[70%]"></div>
+<div class="bg-red-500 h-full w-[30%]"></div>
+</div>
+<span class="font-stat-sm text-stat-sm text-on-surface-variant">6L</span>
+</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">70% Win Rate</div>
+</div>
+</section>
+<!-- Match Feed -->
+<section class="w-full flex flex-wrap items-center gap-md mb-md p-sm bg-level-1 border-base rounded-lg">
+    <!-- Queue Type Dropdown -->
+    <div class="flex flex-col gap-1">
+        <label class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-wider px-1">Queue Type</label>
+        <div class="relative">
+            <select class="bg-level-2 border-base text-on-surface font-body-sm text-sm rounded px-sm py-1.5 pr-8 appearance-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer">
+                <option>All Queues</option>
+                <option>Ranked Solo</option>
+                <option>Ranked Flex</option>
+                <option>Normal</option>
+                <option>ARAM</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[18px]">expand_more</span>
+        </div>
+    </div>
+
+    <!-- Result Filter Tabs -->
+    <div class="flex flex-col gap-1">
+        <label class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-wider px-1">Result</label>
+        <div class="flex bg-level-2 border-base rounded overflow-hidden">
+            <button class="px-md py-1.5 text-on-surface font-label-caps text-label-caps bg-primary-container/20 border-r border-base hover:bg-primary-container/30 transition-colors">All</button>
+            <button class="px-md py-1.5 text-on-surface-variant font-label-caps text-label-caps border-r border-base hover:text-on-surface hover:bg-level-1 transition-colors">Victory</button>
+            <button class="px-md py-1.5 text-on-surface-variant font-label-caps text-label-caps hover:text-on-surface hover:bg-level-1 transition-colors">Defeat</button>
+        </div>
+    </div>
+
+    <!-- Champion Search -->
+    <div class="flex flex-col gap-1 flex-grow">
+        <label class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-wider px-1">Filter by Champion</label>
+        <div class="flex bg-level-2 border-base rounded items-center px-sm focus-within:border-primary transition-colors">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+            <input type="text" placeholder="Search champion..." class="bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant font-body-sm text-sm w-full py-1.5 ml-xs">
+        </div>
+    </div>
+</section><div class="w-full flex flex-col gap-unit">
+<!-- Match Card 1 (Expanded, Win) -->
+<div class="bg-level-1 border-base rounded-lg overflow-hidden flex flex-col win-border bg-opacity-50">
+<!-- Card Header / Summary Row -->
+<div class="flex flex-col lg:flex-row p-sm md:p-md gap-md items-start lg:items-center justify-between cursor-pointer hover:bg-level-2 transition-colors">
+<!-- Meta info -->
+<div class="flex flex-row lg:flex-col justify-between w-full lg:w-32 flex-shrink-0">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm win-text">Victory</span>
+<span class="font-body-sm text-body-sm text-on-surface">Ranked Solo</span>
+</div>
+<div class="flex flex-col lg:items-start items-end mt-0 lg:mt-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">28m 14s</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2 hours ago</span>
+</div>
+</div>
+<div class="hidden lg:block w-px h-12 bg-outline-variant"></div>
+<!-- Player Core Stats -->
+<div class="flex items-center gap-md w-full lg:w-auto flex-grow justify-between lg:justify-start">
+<div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-blue-500 flex-shrink-0">
+<img alt="Champion Ahri" class="w-full h-full object-cover" data-alt="A striking portrait of a mythical nine-tailed fox character, rendered in a dark fantasy digital art style. The character features glowing blue eyes, elegant crimson and white attire, and spectral tails illuminated by ambient magic. The background is a moody, deep-space void, emphasizing the character's vibrant colors. The overall aesthetic is polished, competitive, and aligns perfectly with a high-end esports dashboard's tactical dark mode theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZi8NplOuheW1Lu6H6haPxHpg4JBlGLeZC47FaBZZx_XeIrXh7Aw3ZTyTJMIEP0N2swZOEEd83Cv49HWs1TQ-AH2Uklyv44oyaEaGMKJoqW-WyrLutxu5G_3qClVpQS-GmAjD2aV-RD1MpdbJvkI-iedxWmed00BF6ZioqdIV4DORFMPubcfThUrDwWJyqcDApCCsBkN9cK3VpOfw_RN-qjNGaiZl2EbZovcH5ELzGDmtudUKXwyUv-NW5ovXbKR7Z_OTjFlx97Ig">
+<div class="absolute bottom-0 right-0 w-5 h-5 bg-level-2 rounded-full flex items-center justify-center font-label-caps text-[8px] text-on-surface border border-base">18</div>
+</div>
+<div class="flex flex-col min-w-[100px]">
+<div class="font-stat-lg text-stat-lg text-on-surface tracking-wide">
+                                8 <span class="text-on-surface-variant font-body-sm">/</span> 2 <span class="text-on-surface-variant font-body-sm">/</span> 11
+                            </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+<span class="text-on-surface">9.50</span> KDA
+                            </div>
+</div>
+<div class="hidden sm:flex flex-col border-l border-outline-variant pl-md ml-xs">
+<div class="font-stat-sm text-stat-sm text-on-surface">Level 18</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">221 CS (7.8/m)</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant bg-level-2 px-2 py-0.5 rounded mt-1 w-max">Mid</div>
+</div>
+</div>
+<div class="hidden lg:block w-px h-12 bg-outline-variant"></div>
+<!-- Items -->
+<div class="flex flex-col gap-xs items-center lg:items-start w-full lg:w-auto">
+<div class="flex gap-1">
+<!-- 6 Items -->
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<!-- Trinket -->
+<div class="w-7 h-7 bg-level-2 border-base rounded-full ml-1 flex-shrink-0"></div>
+</div>
+<div class="flex gap-sm font-label-caps text-label-caps text-on-surface-variant w-full justify-center lg:justify-start">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> Control Ward: 2</span>
+</div>
+</div>
+<div class="hidden lg:flex items-center justify-end w-8 ml-auto">
+<span class="material-symbols-outlined text-on-surface-variant transform rotate-180 transition-transform">expand_more</span>
+</div>
+</div>
+<!-- Expanded Detail Section -->
+<div class="border-t border-outline-variant bg-[#111214] p-sm md:p-md flex flex-col xl:flex-row gap-md">
+<!-- Blue Team -->
+<div class="flex-1 flex flex-col min-w-0">
+<div class="flex justify-between items-center mb-sm px-sm pb-sm border-b border-outline-variant">
+<span class="font-headline-sm text-headline-sm win-text">Victory (Blue Team)</span>
+<div class="flex gap-sm font-label-caps text-label-caps text-on-surface-variant">
+<span class="flex items-center gap-1" title="Towers"><span class="material-symbols-outlined text-[14px]">account_balance</span> 9</span>
+<span class="flex items-center gap-1" title="Dragons"><span class="material-symbols-outlined text-[14px]">local_fire_department</span> 3</span>
+<span class="flex items-center gap-1" title="Barons"><span class="material-symbols-outlined text-[14px]">android</span> 1</span>
+<span class="flex items-center gap-1 ml-2 font-stat-sm text-on-surface">64.2k G</span>
+</div>
+</div>
+<!-- Header Row -->
+<div class="flex px-sm py-1 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-1 hidden sm:flex">
+<div class="w-10"></div>
+<div class="flex-1 min-w-[100px]">Player</div>
+<div class="w-24 text-center">KDA</div>
+<div class="w-16 text-right">CS</div>
+<div class="w-20 text-right">DMG</div>
+<div class="w-32 xl:w-40 ml-auto hidden md:block">Items</div>
+</div>
+<!-- Player Rows -->
+<div class="flex flex-col gap-1">
+<!-- Row 1 (Top) -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Zeus</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">4/3/6</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">240</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">21.4k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-secondary-container opacity-30 w-[70%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Row 2 (Jungle) -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Oner</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">5/1/12</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">180</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">14.2k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-secondary-container opacity-30 w-[45%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Row 3 (Mid - FAKER - Highlighted) -->
+<div class="flex items-center px-sm py-1.5 bg-primary-container/10 border border-primary-container/30 rounded transition-colors group relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
+<div class="w-8 h-8 rounded-full mr-sm flex-shrink-0 border border-primary-container overflow-hidden">
+<img alt="Ahri Icon Small" class="w-full h-full object-cover" data-alt="A small, intense crop of a digital artwork featuring a mythical fox character in dark armor, illuminated by blue neon energy. The style is hyper-detailed, moody, and suitable for a high-end esports interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-FQAUt-K2WFQ4DrAUe5n_SZiUiQSR2LogJ5szIIjegirUw8k-bDjFU9fJmGw816mDaOYL39VLX2S2kgnEElvU-tF02YWQlV3e_eraOrh3T-bU9I0k3W-ZSFqDtvDymlMPySjjgUslsf-IDm6GyQg0Uvg_iaQyeLI6PhbCWUcXeK7iiWu2E4w_dxa5lLIaAOzgS_lT0mCU-0yMGUKMU_0PklvOtszlD_JwQ6UMmRf5PFahrluOW9bC5t2eGesOstbq_mWA_9Ya3A0">
+</div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-headline-sm text-[13px] text-primary truncate">Faker</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">8/2/11</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">221</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10 font-stat-sm text-on-surface">28.4k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-primary-container opacity-40 w-[100%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Row 4 (ADC) -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Gumayusi</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">7/1/5</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">265</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">24.1k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-secondary-container opacity-30 w-[80%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Row 5 (Support) -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Keria</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">1/2/18</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">32</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">6.8k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-secondary-container opacity-30 w-[20%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+</div>
+<div class="mt-sm flex items-center gap-sm px-sm pt-sm border-t border-outline-variant">
+<span class="font-label-caps text-label-caps text-on-surface-variant">BANS</span>
+<div class="flex gap-1">
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+</div>
+</div>
+</div>
+<!-- Red Team -->
+<div class="flex-1 flex flex-col min-w-0 xl:border-l border-outline-variant xl:pl-md mt-md xl:mt-0 pt-md xl:pt-0 border-t xl:border-t-0">
+<div class="flex justify-between items-center mb-sm px-sm pb-sm border-b border-outline-variant">
+<span class="font-headline-sm text-headline-sm loss-text">Defeat (Red Team)</span>
+<div class="flex gap-sm font-label-caps text-label-caps text-on-surface-variant">
+<span class="flex items-center gap-1" title="Towers"><span class="material-symbols-outlined text-[14px]">account_balance</span> 3</span>
+<span class="flex items-center gap-1" title="Dragons"><span class="material-symbols-outlined text-[14px]">local_fire_department</span> 1</span>
+<span class="flex items-center gap-1" title="Barons"><span class="material-symbols-outlined text-[14px]">android</span> 0</span>
+<span class="flex items-center gap-1 ml-2 font-stat-sm text-on-surface">51.8k G</span>
+</div>
+</div>
+<!-- Header Row -->
+<div class="flex px-sm py-1 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-1 hidden sm:flex">
+<div class="w-10"></div>
+<div class="flex-1 min-w-[100px]">Player</div>
+<div class="w-24 text-center">KDA</div>
+<div class="w-16 text-right">CS</div>
+<div class="w-20 text-right">DMG</div>
+<div class="w-32 xl:w-40 ml-auto hidden md:block">Items</div>
+</div>
+<!-- Player Rows -->
+<div class="flex flex-col gap-1 opacity-90">
+<!-- Enemy Row 1 -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Doran</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">2/5/3</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">210</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">16.5k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-red-900/30 w-[55%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Enemy Row 2 -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Peanut</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">3/4/6</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">165</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">12.1k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-red-900/30 w-[40%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Enemy Row 3 -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Chovy</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">4/4/2</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">255</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">23.8k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-red-900/30 w-[75%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Enemy Row 4 -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Peyz</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">0/7/4</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">230</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">15.0k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-red-900/30 w-[50%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+<!-- Enemy Row 5 -->
+<div class="flex items-center px-sm py-1.5 hover:bg-level-2 rounded transition-colors group">
+<div class="w-8 h-8 bg-level-2 rounded-full mr-sm flex-shrink-0 border-base"></div>
+<div class="flex-1 min-w-[80px] pr-2">
+<div class="font-body-sm text-body-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer">Lehends</div>
+</div>
+<div class="w-24 text-center font-stat-sm text-stat-sm text-on-surface">0/5/8</div>
+<div class="w-16 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block">28</div>
+<div class="w-20 text-right font-body-sm text-body-sm text-on-surface-variant hidden sm:block relative overflow-hidden">
+<span class="relative z-10">5.2k</span>
+<div class="absolute top-0 bottom-0 right-0 bg-red-900/30 w-[15%] z-0 rounded-l"></div>
+</div>
+<div class="flex gap-1 ml-auto justify-end hidden md:flex">
+<div class="w-5 h-5 bg-level-2 border-base rounded flex-shrink-0"></div>
+</div>
+</div>
+</div>
+<div class="mt-sm flex items-center gap-sm px-sm pt-sm border-t border-outline-variant">
+<span class="font-label-caps text-label-caps text-on-surface-variant">BANS</span>
+<div class="flex gap-1">
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+<div class="w-6 h-6 rounded bg-level-2 border-base opacity-50 grayscale"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Match Card 2 (Collapsed, Loss) -->
+<div class="bg-level-1 border-base rounded-lg overflow-hidden flex flex-col loss-border opacity-80 hover:opacity-100 transition-opacity">
+<!-- Card Header / Summary Row -->
+<div class="flex flex-col lg:flex-row p-sm md:p-md gap-md items-start lg:items-center justify-between cursor-pointer hover:bg-level-2 transition-colors">
+<div class="flex flex-row lg:flex-col justify-between w-full lg:w-32 flex-shrink-0">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm loss-text">Defeat</span>
+<span class="font-body-sm text-body-sm text-on-surface">Ranked Solo</span>
+</div>
+<div class="flex flex-col lg:items-start items-end mt-0 lg:mt-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">32m 05s</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">5 hours ago</span>
+</div>
+</div>
+<div class="hidden lg:block w-px h-12 bg-outline-variant"></div>
+<div class="flex items-center gap-md w-full lg:w-auto flex-grow justify-between lg:justify-start">
+<div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-red-500 flex-shrink-0 bg-level-2">
+<div class="absolute bottom-0 right-0 w-5 h-5 bg-level-2 rounded-full flex items-center justify-center font-label-caps text-[8px] text-on-surface border border-base">16</div>
+</div>
+<div class="flex flex-col min-w-[100px]">
+<div class="font-stat-lg text-stat-lg text-on-surface tracking-wide">
+                                4 <span class="text-on-surface-variant font-body-sm">/</span> 5 <span class="text-on-surface-variant font-body-sm">/</span> 4
+                            </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+<span class="text-on-surface">1.60</span> KDA
+                            </div>
+</div>
+<div class="hidden sm:flex flex-col border-l border-outline-variant pl-md ml-xs">
+<div class="font-stat-sm text-stat-sm text-on-surface">Level 16</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">245 CS (7.6/m)</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant bg-level-2 px-2 py-0.5 rounded mt-1 w-max">Mid</div>
+</div>
+</div>
+<div class="hidden lg:block w-px h-12 bg-outline-variant"></div>
+<div class="flex flex-col gap-xs items-center lg:items-start w-full lg:w-auto">
+<div class="flex gap-1">
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-transparent border border-dashed border-outline-variant rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-transparent border border-dashed border-outline-variant rounded flex-shrink-0"></div>
+<div class="w-7 h-7 bg-level-2 border-base rounded-full ml-1 flex-shrink-0"></div>
+</div>
+<div class="flex gap-sm font-label-caps text-label-caps text-on-surface-variant w-full justify-center lg:justify-start">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> Control Ward: 0</span>
+</div>
+</div>
+<div class="hidden lg:flex items-center justify-end w-8 ml-auto">
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin pb-safe pt-xs bg-surface-container-highest border-t border-outline-variant shadow-xl rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary bg-primary-container/10 rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined">reorder</span>
+<span class="font-label-caps text-label-caps mt-1">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="font-label-caps text-label-caps mt-1">Ranks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</a>
+</nav>
+
+
+</body></html>

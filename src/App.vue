@@ -15,6 +15,9 @@ const responseData = ref(null);
 const utilityData = ref(null);
 const selectedLeaderboardRegion = ref("euw1");
 const expandedMatchId = ref(null);
+const selectedQueueFilter = ref("All");
+const selectedResultFilter = ref("All");
+const selectedChampionFilter = ref("");
 const nextStart = ref(0);
 const isLoadingMore = ref(false);
 const isPrefetchingMore = ref(false);
@@ -27,6 +30,23 @@ onMounted(async () => {
 });
 
 const matches = computed(() => responseData.value?.matches || []);
+const queueOptions = computed(() => {
+  const names = [...new Set(matches.value.map((match) => match.queue_name).filter(Boolean))];
+  return ["All", ...names.sort()];
+});
+const filteredMatches = computed(() => {
+  const championFilter = selectedChampionFilter.value.trim().toLowerCase();
+  return matches.value.filter((match) => {
+    const queueMatch = selectedQueueFilter.value === "All" || match.queue_name === selectedQueueFilter.value;
+    const resultMatch =
+      selectedResultFilter.value === "All" ||
+      (selectedResultFilter.value === "Victory" ? match.searched_player?.win : !match.searched_player?.win);
+    const championMatch =
+      !championFilter ||
+      match.searched_player?.champion_name?.toLowerCase().includes(championFilter);
+    return queueMatch && resultMatch && championMatch;
+  });
+});
 const player = computed(() => matches.value.find((match) => match.searched_player)?.searched_player);
 const wins = computed(() => matches.value.filter((match) => match.searched_player?.win).length);
 const losses = computed(() => matches.value.filter((match) => match.searched_player && !match.searched_player.win).length);
@@ -551,9 +571,42 @@ const trending = [
             </div>
           </div>
           <div class="w-full md:w-auto md:text-right">
-            <div class="mb-xs font-body-sm text-body-sm text-on-surface-variant">Last {{ matches.length }} Matches</div>
+            <div class="mb-xs flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Displayed {{ filteredMatches.length }} of {{ matches.length }} Matches</span>
+            </div>
             <div class="flex w-full items-center gap-xs md:w-48"><span class="font-stat-sm text-stat-sm">{{ wins }}W</span><div class="flex h-2 flex-grow overflow-hidden rounded-full bg-level-2"><div class="h-full bg-blue-500" :style="{ width: `${winRate}%` }"></div><div class="h-full bg-red-500" :style="{ width: `${100 - winRate}%` }"></div></div><span class="font-stat-sm text-stat-sm text-on-surface-variant">{{ losses }}L</span></div>
             <div class="mt-1 font-label-caps text-label-caps text-on-surface-variant">{{ winRate }}% Win Rate</div>
+          </div>
+        </section>
+
+        <section class="mb-md rounded-lg border border-[#2C2E33] bg-level-1 p-md">
+          <div class="flex w-full flex-col gap-md md:flex-row md:items-center md:justify-between">
+            <div class="relative w-full md:w-48 flex-shrink-0">
+              <label class="sr-only" for="queueFilter">Queue Type</label>
+              <div class="bg-level-2 border border-[#2C2E33] rounded flex items-center justify-between px-md py-sm w-full transition-all duration-200">
+                <span class="font-body-md text-body-md text-on-surface">{{ selectedQueueFilter === 'All' ? 'All Queues' : selectedQueueFilter }}</span>
+                <span class="material-symbols-outlined text-on-surface-variant text-sm">expand_more</span>
+              </div>
+              <select id="queueFilter" v-model="selectedQueueFilter" class="absolute inset-0 opacity-0 cursor-pointer">
+                <option v-for="queueName in queueOptions" :key="queueName" :value="queueName">{{ queueName === 'All' ? 'All Queues' : queueName }}</option>
+              </select>
+            </div>
+
+            <div class="flex w-full md:w-auto items-center bg-[#0B0B0C] border border-[#2C2E33] rounded p-[2px]">
+              <button type="button" @click="selectedResultFilter = 'All'" :class="['flex-1 md:w-24 py-sm px-sm text-center font-stat-sm text-stat-sm transition-colors rounded', selectedResultFilter === 'All' ? 'bg-surface-container-high text-primary-container' : 'text-on-surface-variant hover:text-on-surface hover:bg-level-1']">All</button>
+              <button type="button" @click="selectedResultFilter = 'Victory'" :class="['flex-1 md:w-24 py-sm px-sm text-center font-stat-sm text-stat-sm transition-colors rounded', selectedResultFilter === 'Victory' ? 'bg-surface-container-high text-primary-container' : 'text-on-surface-variant hover:text-on-surface hover:bg-level-1']">Victory</button>
+              <button type="button" @click="selectedResultFilter = 'Defeat'" :class="['flex-1 md:w-24 py-sm px-sm text-center font-stat-sm text-stat-sm transition-colors rounded', selectedResultFilter === 'Defeat' ? 'bg-surface-container-high text-primary-container' : 'text-on-surface-variant hover:text-on-surface hover:bg-level-1']">Defeat</button>
+            </div>
+
+            <div class="relative w-full md:w-64 flex-shrink-0 bg-[#0B0B0C] border border-[#2C2E33] rounded overflow-hidden flex items-center">
+              <span class="material-symbols-outlined absolute left-sm text-on-surface-variant text-sm z-10">search</span>
+              <input
+                v-model="selectedChampionFilter"
+                class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-body-md text-body-md pl-xl py-sm pr-sm placeholder:text-on-surface-variant/50"
+                placeholder="Filter by Champion..."
+                type="text"
+              />
+            </div>
           </div>
         </section>
 
@@ -590,7 +643,7 @@ const trending = [
         </section>
 
         <div class="flex w-full flex-col gap-unit">
-          <article v-for="match in matches" :key="match.match_id" v-show="activeSection === 'history' || activeSection === 'live'" class="flex flex-col overflow-hidden rounded-lg border border-[#2C2E33] bg-level-1 bg-opacity-50" :class="match.searched_player?.win ? 'win-border' : 'loss-border'">
+          <article v-for="match in filteredMatches" :key="match.match_id" v-show="activeSection === 'history' || activeSection === 'live'" class="flex flex-col overflow-hidden rounded-lg border border-[#2C2E33] bg-level-1 bg-opacity-50" :class="match.searched_player?.win ? 'win-border' : 'loss-border'">
             <button class="flex cursor-pointer flex-col items-start justify-between gap-md p-sm text-left transition hover:bg-level-2 md:p-md lg:flex-row lg:items-center" @click="toggleMatch(match.match_id)">
               <div class="flex w-full shrink-0 flex-row justify-between lg:w-32 lg:flex-col">
                 <div><span class="font-headline-sm text-headline-sm" :class="match.searched_player?.win ? 'win-text' : 'loss-text'">{{ match.searched_player?.win ? 'Victory' : 'Defeat' }}</span><span class="block font-body-sm text-body-sm">{{ match.queue_name }}</span></div>
