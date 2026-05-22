@@ -1,6 +1,7 @@
 name = "lol-tracker-frontend"
 compatibility_date = "2026-05-23"
 workers_dev = true
+main = "workers-site/index.js"
 
 [site]
 bucket = "./dist"
