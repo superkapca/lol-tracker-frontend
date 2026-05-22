@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from "vue";
 import { championIcon, itemIcon, loadDataDragon, spellIcon } from "./lib/ddragon";
 import { compact, dateTime, duration } from "./lib/format";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const isNotFound = window.location.pathname !== "/";
 const form = ref({ gameName: "", tagLine: "", count: "10" });
 const lastSearch = ref({ gameName: "Faker", tagLine: "T1" });
@@ -96,6 +96,26 @@ const championStats = computed(() => {
   return [...totals.values()].sort((a, b) => b.games - a.games);
 });
 
+async function fetchJson(path) {
+  const res = await fetch(`${apiBaseUrl}${path}`);
+  const contentType = res.headers.get("content-type") || "";
+
+  if (!contentType.includes("application/json")) {
+    const body = await res.text();
+    const looksLikeHtml = body.trim().toLowerCase().startsWith("<!doctype") || body.trim().startsWith("<html");
+    if (looksLikeHtml) {
+      throw new Error("The frontend received HTML instead of API JSON. Set VITE_API_BASE_URL to your deployed backend URL and redeploy.");
+    }
+    throw new Error(`Expected JSON from the backend, but received ${contentType || "an unknown response type"}.`);
+  }
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || "The backend returned an error.");
+  }
+  return data;
+}
+
 async function searchPlayer(gameName = form.value.gameName, tagLine = form.value.tagLine) {
   const cleanName = gameName.trim();
   const cleanTag = tagLine.trim();
@@ -112,9 +132,7 @@ async function searchPlayer(gameName = form.value.gameName, tagLine = form.value
 
   try {
     const params = new URLSearchParams({ game_name: cleanName, tag_line: cleanTag, count: "10" });
-    const res = await fetch(`${apiBaseUrl}/matches?${params}`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "The backend returned an error.");
+    const data = await fetchJson(`/matches?${params}`);
     responseData.value = data;
     expandedMatchId.value = data.matches?.[0]?.match_id || null;
     nextStart.value = data.next_start || data.matches?.length || 0;
@@ -143,9 +161,7 @@ async function loadMoreMatches({ silent = false, countOverride = form.value.coun
       count: countOverride,
       start: String(nextStart.value),
     });
-    const res = await fetch(`${apiBaseUrl}/matches?${params}`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Could not load more matches.");
+    const data = await fetchJson(`/matches?${params}`);
 
     const existingIds = new Set(responseData.value?.match_ids || []);
     const newMatches = (data.matches || []).filter((match) => !existingIds.has(match.match_id));
@@ -196,9 +212,7 @@ async function openPage(page) {
       proPlay: "/api/pro-play",
       settings: "/api/settings",
     }[page];
-    const res = await fetch(`${apiBaseUrl}${endpoint}`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Could not load this page.");
+    const data = await fetchJson(endpoint);
     utilityData.value = data;
     pushInternalHistory();
   } catch (error) {
