@@ -39,9 +39,26 @@ npm run build
 
 The Flask backend can serve the production build from this folder's `dist/` directory.
 
+## Cloudflare Pages Deployment
+
+Recommended Cloudflare Pages settings:
+
+```text
+Framework preset: Vue / Vite
+Build command: npm run build
+Build output directory: dist
+Root directory: lol_tracker_frontend
+```
+
+Set this environment variable in Cloudflare Pages before deploying:
+
+```text
+VITE_API_BASE_URL=https://your-backend-api-host
+```
+
 ## Cloudflare Wrangler Deployment
 
-This frontend can be deployed as a Cloudflare Workers Sites project.
+This frontend can also be deployed as a Cloudflare Worker with static assets.
 
 1. Install dependencies:
 
@@ -58,10 +75,16 @@ npm run build
 3. Deploy with Wrangler:
 
 ```bash
-npx wrangler deploy
+npm run deploy:wrangler
 ```
 
-If you want to deploy to a specific account/route, add your Cloudflare account settings to `wrangler.toml`.
+For Cloudflare Pages from the terminal:
+
+```bash
+npm run deploy:pages
+```
+
+If you want to deploy to a specific account/route, add your Cloudflare account settings to `wrangler.toml` or configure them in the Cloudflare dashboard.
 
 ## Notes
 
