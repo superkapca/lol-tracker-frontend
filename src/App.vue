@@ -581,13 +581,13 @@ const trending = [
 
         <section class="mb-md rounded-lg border border-[#2C2E33] bg-level-1 p-md">
           <div class="flex w-full flex-col gap-md md:flex-row md:items-center md:justify-between">
-            <div class="relative w-full md:w-48 flex-shrink-0">
+            <div class="relative w-full md:w-48 flex-shrink-0 group">
               <label class="sr-only" for="queueFilter">Queue Type</label>
-              <div class="bg-level-2 border border-[#2C2E33] rounded flex items-center justify-between px-md py-sm w-full transition-all duration-200">
+              <div class="bg-[#0B0B0C] border border-[#2C2E33] rounded flex items-center justify-between px-md py-sm w-full transition-all duration-200 hover:border-primary-container">
                 <span class="font-body-md text-body-md text-on-surface">{{ selectedQueueFilter === 'All' ? 'All Queues' : selectedQueueFilter }}</span>
                 <span class="material-symbols-outlined text-on-surface-variant text-sm">expand_more</span>
               </div>
-              <select id="queueFilter" v-model="selectedQueueFilter" class="absolute inset-0 opacity-0 cursor-pointer">
+              <select id="queueFilter" v-model="selectedQueueFilter" class="absolute inset-0 opacity-0 cursor-pointer appearance-none">
                 <option v-for="queueName in queueOptions" :key="queueName" :value="queueName">{{ queueName === 'All' ? 'All Queues' : queueName }}</option>
               </select>
             </div>

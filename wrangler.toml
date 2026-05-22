@@ -1,0 +1,8 @@
+name = "lol-tracker-frontend"
+compatibility_date = "2026-05-23"
+workers_dev = true
+
+[site]
+bucket = "./dist"
+include = ["**/*"]
+exclude = ["**/.git/**", "**/.DS_Store"]
